@@ -1,0 +1,19 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: GitHub_Trello_WebHook_development
+
+test:
+  <<: *default
+  database: GitHub_Trello_WebHook_test
+
+production:
+  <<: *default
+  database: GitLo_Practice_production
+  username: GitLo_Practice
+  password: <%= ENV['GITLO_PRACTICE_DATABASE_PASSWORD'] %>
