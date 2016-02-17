@@ -11,5 +11,6 @@ class PagesController < ApplicationController
 
   def boards
     @boards = current_user.boards.where(syn: false)
+    @repo_id = params['repo_id']
   end
 end

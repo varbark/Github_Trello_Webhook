@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   get  "/auth/:provider/callback" => "sessions#create", as: :login
   get  "/signout" => "sessions#destroy", as: :signout
   get '/boards' => "pages#boards", as: :boards
-  post '/webhook/send' => "webhooks#ssend", as: :send
+  post '/webhook/sync' => "webhooks#sync", as: :sync
+  post '/webhook/connect' => "webhooks#connect", as: :connect
+  post '/github/:github_id/hooks' => "webhooks#receiveHooks"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

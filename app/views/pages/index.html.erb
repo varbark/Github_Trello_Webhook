@@ -19,9 +19,8 @@
                   <div><%= link_to 'Connect to Trello board', boards_path(repo_id: repo.id ),  remote: true, class: 'repo-link' ,id: repo[:GitId]  %></div>
               <% else %>
                   <p>Board: <%= repo.board.name%></p>
-                  <% if !repo['syn?'] %>
-                      <p>not Sync yet</p>
-                      <%= link_to 'Sync now', syn_path(RepoId: repo.id ) %>
+                  <% if !repo['syn'] %>
+                      <%= link_to 'Sync now', sync_path(repo_id: repo.id ), method: :post %>
                   <% else %>
                       <p>Synced </p>
                   <% end %>
