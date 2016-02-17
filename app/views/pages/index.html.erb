@@ -1,5 +1,35 @@
 <% if current_user  %>
-    <h1>Success!!</h1>
+    <div id="boards-list" style="display:none;"></div>
+    <div class="container">
+      <div class="container repo-header">
+        <div class="col-md-3">Name</div>
+        <div class="col-md-6">Full_name</div>
+        <div class="col-md-3">Syn status</div>
+      </div>
+      <% @repos.each do |repo| %>
+          <div class="container repo">
+            <div class="col-md-3">
+              <h2><%= repo.name %></h2>
+            </div>
+            <div class="col-md-6">
+              <p><%= repo.full_name %></p>
+            </div>
+            <div class="col-md-3">
+              <% if !repo.board %>
+                  <div><%= link_to 'Connect to Trello board', boards_path(repo_id: repo.id ),  remote: true, class: 'repo-link' ,id: repo[:GitId]  %></div>
+              <% else %>
+                  <p>Board: <%= repo.board.name%></p>
+                  <% if !repo['syn?'] %>
+                      <p>not Sync yet</p>
+                      <%= link_to 'Sync now', syn_path(RepoId: repo.id ) %>
+                  <% else %>
+                      <p>Synced </p>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+      <% end %>
+    </div>
 <% else %>
     <h1>Need to sign in Github</h1>
 <% end %>

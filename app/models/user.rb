@@ -18,12 +18,9 @@ class User < ActiveRecord::Base
   end
 
   def updateRepos
-    result = sendGithubGetRequest('user/repos', self.github_token)
+    result = JSON.parse(sendGithubGetRequest('user/repos', self.github_token))
     Repo.findOrCreateRepos(self, result)
   end
-
-
-
 
   def create_with_trello(auth)
     self.trello_id = auth.uid
@@ -33,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def updateBoards
-    result = sendTrelloGetRequest("members/#{self.trello_id}/boards", self.trello_token)
+    result = JSON.parse(sendTrelloGetRequest("members/#{self.trello_id}/boards", self.trello_token))
     Board.findOrCreateBoards(result, self)
   end
 

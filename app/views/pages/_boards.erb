@@ -1,0 +1,13 @@
+<div class="container boards">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="container" >
+      <%= form_for :syn,  url: send_path do |f| %>
+          <%= f.hidden_field(:repo_id, :value => @repo_id) %>
+          <%= f.select(:board, @boards.collect{|b| [b.name, b.id]}, {:include_hidden => false}, { :multiple => true, :size => @boards.count}) %>
+          <%= f.submit 'connect', class: 'connect-button', name: 'connect' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
