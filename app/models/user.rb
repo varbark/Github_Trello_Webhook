@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   end
 
 
+
+
   def create_with_trello(auth)
     self.trello_id = auth.uid
     self.trello_token = auth.credentials.token
@@ -24,13 +26,8 @@ class User < ActiveRecord::Base
   end
 
   def updateBoards
-    token
-    result = sendTrelloGetRequest("members/#{self.trello_id}/boards")
-    Board.findOrCreateBoards(result)
-  end
-
-  def token
-    self.trello_token
+    result = sendTrelloGetRequest("members/#{self.trello_id}/boards", self.trello_token)
+    Board.findOrCreateBoards(result, self)
   end
 
 end
