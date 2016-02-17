@@ -1,4 +1,6 @@
 class WebhooksController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
   respond_to :html, :js
   def connect
     board = Board.find(params['webhook']['board_id'][0])
@@ -18,7 +20,15 @@ class WebhooksController < ApplicationController
   end
 
   def receiveHooks
-
+    json = JSON.parse(request.body.gets)
+    if json['action']
+      repo_id = json['repository']['id']
+      repo = Repo.find_by_github_id(repo_id)
+      repo.handleWebhhok(json)
+    else
+    #   it is a webhook json
+    end
+    render :nothing => true
   end
 
 end
