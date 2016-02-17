@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   def self.findOrCreateUser(auth)
     user = User.find_by(github_id: auth["uid"]) || User.create_with_github(auth)
+    user.updateRepos
+    user
   end
 
   def self.create_with_github(auth)
@@ -13,6 +15,11 @@ class User < ActiveRecord::Base
       user.github_id = auth.uid
       user.github_token = auth.credentials.token
     end
+  end
+
+  def updateRepos
+    result = sendGithubGetRequest('user/repos', self.github_token)
+    Repo.findOrCreateRepos(self, result)
   end
 
 

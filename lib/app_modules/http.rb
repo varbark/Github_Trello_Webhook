@@ -5,5 +5,10 @@ module AppModules
       url << query if query
       JSON.parse(HTTP.get(url))
     end
+
+    def sendGithubGetRequest(path, token)
+      url = ENV['GITHUB_API_URL'] + path
+      JSON.parse(HTTP.headers(:Authorization => "token #{token}").get(url))
+    end
   end
 end
