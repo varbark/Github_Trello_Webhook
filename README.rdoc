@@ -1,17 +1,10 @@
 # Github_Trello_Webhook
 A Rails middleware server app which could receive webhook from Github and sync to Trello board.
 (This is a practice project, idea base on Gitlo.com)
+
 Stack: Oauth, ajax
 
 Step:
-1. create file '.env' in root, and add fllowing ENV
-WEB_URL
-GITHUB_ID
-GITHUB_SERCERT
-TRELLO_APP_ID
-TRELLO_APP_SECRET
-TRELLO_API_URL
-GITHUB_API_URL
 
-2.bundle install
-3.rails s
+fill up your own credential information in .env
+
