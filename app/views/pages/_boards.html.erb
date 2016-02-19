@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div class="container boards" >
+      <%= form_for :webhook,  url: connect_path do |f| %>
+          <%= f.hidden_field(:repo_id, :value => @repo_id) %>
+          <%= f.label :board_id, 'Please select your board to connect', class: 'board-form' %>
+          <%= f.select(:board_id, @boards.collect{|b| [b.name, b.id]}, {:include_hidden => false}, { :multiple => true, :size => @boards.count, class: 'board-form'}) %>
+          <%= f.submit 'connect', class: 'board-form connect-button', name: 'connect' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>

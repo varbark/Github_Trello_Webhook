@@ -2,16 +2,16 @@
     <div id="boards-list" style="display:none;"></div>
     <div class="container">
       <div class="container repo-header">
-        <div class="col-md-3">Name</div>
-        <div class="col-md-6">Full_name</div>
+        <div class="col-md-4">Name</div>
+        <div class="col-md-5">Full_name</div>
         <div class="col-md-3">Syn status</div>
       </div>
       <% @repos.each do |repo| %>
           <div class="container repo">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <h2><%= repo.name %></h2>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
               <p><%= repo.full_name %></p>
             </div>
             <div class="col-md-3">
@@ -30,5 +30,11 @@
       <% end %>
     </div>
 <% else %>
-    <h1>Need to sign in Github</h1>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-5">
+        <div class="loginBlock"><span class="noteText"><%= link_to "Please sign into Github first", '/auth/github', class: 'loginText'%></span></div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
 <% end %>

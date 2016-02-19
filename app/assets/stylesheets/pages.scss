@@ -18,6 +18,7 @@ h1{
 .repo{
   border: solid 2px black;
   height: 100px;
+  word-wrap: break-word;
 }
 
 .repo-header{
@@ -36,4 +37,34 @@ select option {
   height:20px;
 }
 
+.loginBlock {
+  width:70%;
+  border: 1px solid darkblue;
+  border-radius: 10px;
+  margin: 0 auto;
+  height: 150px;
+  background: deepskyblue;
+  line-height: 134px;
+}
 
+.loginText {
+  font-size: xx-large;
+}
+
+.loginText:hover{
+  color: white;
+}
+
+.noteText{
+  font-size: xx-large;
+  color: white;
+}
+.boards{
+  width:100%;
+}
+
+.board-form{
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+}
