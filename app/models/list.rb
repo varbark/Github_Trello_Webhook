@@ -3,6 +3,25 @@ class List < ActiveRecord::Base
   has_many :cards
   include AppModules::Http
 
+  def self.createList(name, board, token)
+    categories = ['openIssue', 'closeIssue', 'pullRequest']
+    board_trello_id = board.trello_id
+    categories.each do |category|
+      create! do |list|
+        list.name = name
+        list.category = category
+        list.board = board
+        list.trello_id = list.sendTrello(name, token, category, board_trello_id)
+      end
+    end
+  end
+
+  def sendTrello(name, token, category, trello_id)
+    res = JSON.parse(sendTrelloPostRequest('lists', token, "&name=#{name}_#{category}&idBoard=#{trello_id}"))
+    res['id']
+  end
+
+
   def createCard(data, title)
     urlParams = convertToUrl(data)
     token = self.board.user.trello_token
@@ -34,7 +53,7 @@ class List < ActiveRecord::Base
     else
       urlParams = urlParams[0]
     end
-    '&' + urlParams
+    URI.encode('&' + urlParams)
   end
 
 end

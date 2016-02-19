@@ -2,7 +2,6 @@ class Board < ActiveRecord::Base
   belongs_to :user
   belongs_to :repo
   has_many :lists
-  include AppModules::Http
 
 
   def self.findOrCreateBoards(result, user)
@@ -31,12 +30,8 @@ class Board < ActiveRecord::Base
 
   def connectTrello(token)
     #   Create new card for 3 events: open_issues, close_issues, pull_request
-    openIssueList = JSON.parse(sendTrelloPostRequest('lists', token, "&name=#{self.repo.name}_openIssue&idBoard=#{self.trello_id}"))
-    closeIssueList = JSON.parse(sendTrelloPostRequest('lists', token, "&name=#{self.repo.name}_closeIssue&idBoard=#{self.trello_id}"))
-    pullRequestList = JSON.parse(sendTrelloPostRequest('lists', token, "&name=#{self.repo.name}_pullRequest&idBoard=#{self.trello_id}"))
-    self.lists.create(trello_id: openIssueList['id'], name: openIssueList['name'], category: 'openIssue')
-    self.lists.create(trello_id: closeIssueList['id'], name: closeIssueList['name'], category: 'closeIssue')
-    self.lists.create(trello_id: pullRequestList['id'], name: pullRequestList['name'], category: 'pullRequest')
+    name = self.repo.name
+    self.lists.createList(name, self , token)
   end
 
 end

@@ -1,7 +1,9 @@
 class WebhooksController < ApplicationController
+  # TODO: try to remove this line into receiveHooks only
+  # TODO: Try to make Github verification when receiveHooks
+
   skip_before_filter :verify_authenticity_token
 
-  respond_to :html, :js
   def connect
     board = Board.find(params['webhook']['board_id'][0])
     repo = Repo.find(params['webhook']['repo_id'])
@@ -10,12 +12,10 @@ class WebhooksController < ApplicationController
   end
 
   def sync
-    github_token = current_user.github_token
-    trello_token = current_user.trello_token
     repo = Repo.find(params['repo_id'])
     board = repo.board
-    repo.createWebhook(github_token)
-    board.connectTrello(trello_token)
+    repo.createWebhook(current_user.github_token)
+    board.connectTrello(current_user.trello_token)
     redirect_to root_path
   end
 

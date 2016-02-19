@@ -41,6 +41,7 @@ class Repo < ActiveRecord::Base
     if res.status == 201
       self.update(syn: true)
     else
+      # TODO: make error page show to user
       puts 'error: can not create webhook'
     end
   end
@@ -54,17 +55,16 @@ class Repo < ActiveRecord::Base
     action = json['action']
     issue = json['issue']
     issue_id = issue['id']
-    title = URI.encode(issue['title'])
-    body = URI.encode(issue['body'])
+    title = issue['title']
+    body = issue['body']
     repo_id = json['repository']['id']
     repo = Repo.find_by(github_id: repo_id)
     case action
       when 'opened'
         list = self.board.lists.find_by_category('openIssue')
         data = [ ['name', title], ['desc', body], ['idList', list.trello_id], ['urlSource', 'null'], ['due', 'null']]
-        card = list.createCard(data, issue['title'])
-        issue = repo.createIssue(issue['title'], issue_id, card)
-
+        card = list.createCard(data, title)
+        repo.createIssue(title, issue_id, card)
         puts 'create new issue card successfully'
       when 'closed'
         card = Issue.find_by_github_id(issue_id).card

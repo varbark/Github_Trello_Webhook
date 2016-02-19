@@ -1,20 +1,22 @@
 class SessionsController < ApplicationController
-  include AppModules::Http
+
   def create
     auth = request.env["omniauth.auth"]
-    if auth.provider == 'github'
+    provider = auth.provider
+    if provider == 'github'
       oauthGithub(auth)
-      if ifTreloTokenAvailable?
+      if current_user.ifTrelloTokenAvailable?
+        # TODO try to use trello webhook to get the new board information
         current_user.updateBoards
         redirect_to root_path
       else
         render 'pages/loginTrello'
       end
-    elsif auth.provider == 'trello'
+    elsif provider == 'trello'
       oauthTrello(auth)
       redirect_to root_path
     else
-      puts "Can not find provider #{auth.provider}"
+      puts "Can not find provider #{provider}"
     end
   end
 
@@ -33,18 +35,4 @@ class SessionsController < ApplicationController
   def oauthTrello(auth)
     current_user.create_with_trello(auth)
   end
-
-  def ifTreloTokenAvailable?
-    token = current_user.trello_token
-    res =  sendTrelloGetRequest("tokens/#{token}", token)
-    if res.status == 200
-      true
-    else
-      false
-    end
-  end
-
-
-
-
 end

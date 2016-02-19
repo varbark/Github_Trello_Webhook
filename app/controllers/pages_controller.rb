@@ -3,14 +3,12 @@ class PagesController < ApplicationController
 
   def index
     if current_user
-      @user = current_user
-      @repos = @user.repos
-      @boards = @user.boards
+      @repos = current_user.repos
     end
   end
 
   def boards
-    @boards = current_user.boards.where(syn: false)
+    @boards = current_user.findAvailableBoards
     @repo_id = params['repo_id']
   end
 end

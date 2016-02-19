@@ -29,9 +29,23 @@ class User < ActiveRecord::Base
     self.updateBoards
   end
 
+  def ifTrelloTokenAvailable?
+    token = self.trello_token
+    res =  sendTrelloGetRequest("tokens/#{token}", token)
+    if res.status == 200
+      true
+    else
+      false
+    end
+  end
+
+
   def updateBoards
     result = JSON.parse(sendTrelloGetRequest("members/#{self.trello_id}/boards", self.trello_token))
     Board.findOrCreateBoards(result, self)
   end
 
+  def findAvailableBoards
+    self.boards.where(syn: false)
+  end
 end
