@@ -5,12 +5,13 @@ class SessionsController < ApplicationController
     provider = auth.provider
     if provider == 'github'
       oauthGithub(auth)
-      if current_user.ifTrelloTokenAvailable?
+      if github_user.ifTrelloTokenAvailable?
         # TODO try to use trello webhook to get the new board information
+        createCurrentUserSession
         current_user.updateBoards
         redirect_to root_path
       else
-        render 'pages/loginTrello'
+        render 'pages/_loginTrello'
       end
     elsif provider == 'trello'
       oauthTrello(auth)
@@ -21,6 +22,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    session[:github_user] = nil
     session[:user_id] = nil
     redirect_to root_path
   end
@@ -29,10 +31,14 @@ class SessionsController < ApplicationController
 
   def oauthGithub(auth)
     user = User.findOrCreateUser(auth)
-    session[:user_id] = user.id
+    session[:github_user] = user.id
   end
 
   def oauthTrello(auth)
-    current_user.create_with_trello(auth)
+    github_user.create_with_trello(auth)
+  end
+
+  def createCurrentUserSession
+    session[:user_id] = github_user.id
   end
 end

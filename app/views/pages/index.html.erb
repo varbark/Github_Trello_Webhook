@@ -29,10 +29,12 @@
           </div>
       <% end %>
     </div>
+<% elsif github_user  %>
+    <%= render "pages/loginTrello"%>
 <% else %>
     <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-5">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
         <div class="loginBlock"><span class="noteText"><%= link_to "Please sign into Github first", '/auth/github', class: 'loginText'%></span></div>
       </div>
       <div class="col-md-3"></div>
