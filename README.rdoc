@@ -6,5 +6,5 @@ Stack: Oauth, ajax
 
 Step:
 
-fill up your own credential information in .env
 
+fill up your own credential information in .env
