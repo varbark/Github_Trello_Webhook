@@ -12,7 +12,7 @@ gem "omniauth-github"
 gem 'omniauth-trello'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'http'
-
+gem 'unicorn'
 
 group :development, :test do
   gem 'pry'
@@ -24,6 +24,9 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'guard-rspec', require: false
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-unicorn'
 end
 
 group :test do

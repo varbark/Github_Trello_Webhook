@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
       end
     elsif provider == 'trello'
       oauthTrello(auth)
+      createCurrentUserSession
       redirect_to root_path
     else
       puts "Can not find provider #{provider}"
@@ -31,6 +32,7 @@ class SessionsController < ApplicationController
 
   def oauthGithub(auth)
     user = User.findOrCreateUser(auth)
+    user.updateRepos
     session[:github_user] = user.id
   end
 

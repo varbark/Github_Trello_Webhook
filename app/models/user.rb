@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
 
   def self.findOrCreateUser(auth)
     user = User.find_by(github_id: auth["uid"]) || User.create_with_github(auth)
-    user.updateRepos
     user
   end
 
