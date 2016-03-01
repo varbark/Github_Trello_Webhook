@@ -14,5 +14,5 @@ test:
 
 production:
   <<: *default
-  database: deploydemo_production
+  database: GitLo_Practice_production
 
