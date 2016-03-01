@@ -15,5 +15,4 @@ test:
 production:
   <<: *default
   database: GitLo_Practice_production
-  username: GitLo_Practice
-  password: <%= ENV['GITLO_PRACTICE_DATABASE_PASSWORD'] %>
+
